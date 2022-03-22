@@ -12,8 +12,6 @@ def create(request):
         data = json.loads(request.data.get('_content'))
     except TypeError:
         data = request.data
-
-    print(data)
     course_id = data.get("course_id")
     nama = data.get("nama")
     description = data.get("description")
