@@ -8,7 +8,12 @@ import json
 
 @api_view(['POST'])
 def create(request):
-    data = json.loads(request.data.get('_content'))
+    try:
+        data = json.loads(request.data.get('_content'))
+    except TypeError:
+        data = request.data
+
+    print(data)
     course_id = data.get("course_id")
     nama = data.get("nama")
     description = data.get("description")
@@ -51,7 +56,7 @@ def read(request, course_id):
 @api_view(['PUT'])
 def update(request, course_id):
     try:
-        course = Courses.objects.get(course_id=course_id)
+        course = Course.objects.get(course_id=course_id)
     except Course.DoesNotExist:
         reponse = {
             'status': 400,
@@ -59,7 +64,10 @@ def update(request, course_id):
         }
         return Response(response, status=status.HTTP_400_BAD_REQUEST)
 
-    data = json.loads(request.data.get('_content'))
+    try:
+        data = json.loads(request.data.get('_content'))
+    except TypeError:
+        data = request.data
     if not (data.get("nama") or data.get("description")):
         response = {
             'status': 400,
