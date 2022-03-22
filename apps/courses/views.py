@@ -59,15 +59,16 @@ def update(request, course_id):
         }
         return Response(response, status=status.HTTP_400_BAD_REQUEST)
 
-    if not (request.data.get("nama") or request.data.get("description")):
+    data = json.loads(request.data.get('_content'))
+    if not (data.get("nama") or data.get("description")):
         response = {
             'status': 400,
             'message': 'Please provide the field you want to update'
         }
         return Response(response, status=status.HTTP_400_BAD_REQUEST)
 
-    nama = request.data.get("nama", course.nama)
-    description = request.data.get("description", course.description)
+    nama = data.get("nama", course.nama)
+    description = data.get("description", course.description)
 
     course.nama = nama
     course.description = description
