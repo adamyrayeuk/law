@@ -49,6 +49,7 @@ INSTALLED_APPS = [
 
     'apps.oauth',
     'apps.accounts',
+    'apps.courses'
 ]
 
 MIDDLEWARE = [
