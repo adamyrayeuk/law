@@ -5,6 +5,10 @@ from rest_framework.response import Response
 from .models import Course
 
 import json
+import logging
+from logstash_async.handler import AsynchronousLogstashHandler
+from logstash_async.handler import LogstashFormatter
+from .utils import logger
 
 @api_view(['POST'])
 def create(request):
@@ -103,4 +107,12 @@ def delete(request, course_id):
         'status': 200,
         'message': 'Course deleted'
     }
+    return Response(response, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def test_log(request):
+    response = request.GET.dict()
+    
+    logger.debug("debug", response)
+
     return Response(response, status=status.HTTP_200_OK)
